@@ -8,8 +8,13 @@
       body {
         margin: 0;
         height: 100vh;
-        background-color: rgb(204, 227, 247);
-      }
+        background-image: url('历史人物.jpg');
+        background-repeat:no-repeat;
+        background-attachment:fixed;
+        }
+      div {
+          opacity: 0.7;
+        }
       /* * {
         border: 1px solid rgb(167, 56, 56);
       } */
@@ -17,6 +22,7 @@
         display: flex;
       }
       .baise {
+        opacity: 0.4;
         background-color: rgb(245, 243, 240);
       }
       .heise{
@@ -40,9 +46,9 @@
       .mgr8{
         margin-right: 8px;
       }
-      @media screen {
-        
-      }
+      img 
+      { width:100%; -ms-interpolation-mode: bicubic;} 
+
     </style>
     
     <!-- margin：边距，background-color；背景颜色-->
@@ -73,7 +79,9 @@
           </vid>
           <!-- 滚动区 -->
           <vid class="flex column">
-            <vid style="height: 200px;" class="baise bianju"></vid>
+            <vid style="height: 200px;" class="baise bianju">
+            <img src="历史时刻.jpg" >
+            </vid>
             <vid style="height: 200px;" class="baise bianju"></vid>
             <vid style="height: 200px;" class="baise bianju"></vid>
             <vid style="height: 200px;" class="baise bianju"></vid>
