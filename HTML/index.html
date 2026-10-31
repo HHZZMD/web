@@ -5,19 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>我的第一个网页</title>
     <style>
- 
-      div {
+ body{
+  margin: 0;
+  background:linear-gradient(267deg, #2d3f7a 10%, #4a63c8 30%, #8ec5c8 50%);
+
+ }
+      div.vid {
           opacity: 0.7;
         }
-      /* * {
-        border: 1px solid rgb(167, 56, 56);
-      } */
+      
       .flex {
         display: flex;
       }
       .baise {
         opacity: 0.4;
-        background-color: rgb(245, 243, 240);
+        background: linear-gradient(187deg, #2d3f7a 0%, #4a63c8 50%, #8ec5c8 100%);
       }
       .toubu{
         background-color: rgb(54, 202, 228);
@@ -29,6 +31,7 @@
         flex: 1;
       }
       .column{
+        display: flex;
         flex-direction: column;
       }
       .bianju{
@@ -44,67 +47,61 @@
         margin-right: 8px;
       }
       
-     /* img { width:100%; -ms-interpolation-mode: bicubic;}  */
+     /* img { width:100%; -ms-interpolation-mode: bicubic;}  
+        // 保留此样式以便将来为图片设置宽度和插值模式
+     */
 
 
     </style>
     
-    <!-- margin：边距，background-color；背景颜色-->
+    <!-- margin：边距，background-color：背景颜色 -->
   </head>
   <body class="flex ba" > 
     <!-- 侧边栏-->
-     <vid style="width: 20%;z-index: 2;" class="baise flex column bianju">
+     <div style="width: 20%;z-index: 2;" class="baise flex column bianju vid">
       <!-- 头像或图标 -->
-      <ivd style="height: 100px;" class="toubu">
-
-        </ivd>
-        <vid></vid>
-        <vid></vid>
-        <vid></vid>
-     </vid>
+      <div style="height: 100px;" class="toubu vid">
+        <p style="font-size: 20px; margin: 18px;color: #ff1500;text-align: center; text-decoration: dashed;"><b>hello</b>HTML</p>
+        </div>
+        <div class="vid"></div>
+        <div class="vid"></div>
+        <div class="vid"></div>
+     </div>
     <!--主区域-->
-     <vid class="flex1  flex column">
+     <div class="flex1  flex column">
 
       <!--头部栏-->
-      <vid  style="height: 100px;z-index: 1;" class="toubu bianju">
+      <div  style="height: 100px;z-index: 1;" class="toubu bianju">
         
-      </vid>
+      </div>
        <!--内容-->
-      <vid  style="overflow: auto;" class=" flex">
+      <div  style="overflow: auto;" class=" flex">
         <!--左区-->
-          <vid style="flex: 3;">
+          <div style="flex: 3;">
             <!-- 数据区 -->
-          <vid  style="height:100px ;" class="flex  bianju">
-            <vid  class="flex flex1 baise  "></vid>
-            <vid  class="flex flex1 baise  "></vid>
-            <vid  class="flex flex1 baise  "></vid>
-            <vid  class="flex flex1 baise  "></vid>
-            <vid  class="flex flex1 baise  "></vid>
+          <div  style="height:100px ;" class="flex  bianju">
+           
 
-          </vid>
+          </div>
           <!-- 滚动区 -->
-          <vid class="flex column">
-            <vid style="height: 200px;" class="baise bianju">
+          <div class="flex column">
+            <div style="height: 200px;" class="baise bianju">
             <!-- <img src="历史时刻.jpg" width="100%"> -->
-            </vid>
-            <vid style="height: 200px;" class="baise bianju"></vid>
-            <vid style="height: 200px;" class="baise bianju"></vid>
-            <vid style="height: 200px;" class="baise bianju"></vid>
-            <vid style="height: 200px;" class="baise bianju"></vid>
-            <vid style="height: 200px;" class="baise bianju"></vid>
-            <vid style="height: 200px;" class="baise bianju"></vid>
-            <vid style="height: 200px;" class="baise bianju"></vid>
-          </vid>
-          </vid>
+            </div>
+            <div style="height: 200px;" class="baise bianju"></div>
+           
+           
+          </div>
+          </div>
            <!--右区--> 
-          <vid style="flex: 1;"></vid>
-      </vid>
+          <div style="flex: 1;"></div>
+      </div>
 
-      </vid>
+      </div>
 
-     </vid>
+     </div>
   
   </body>
 
-  </body>
+  
 </html>
