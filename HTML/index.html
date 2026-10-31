@@ -5,13 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>我的第一个网页</title>
     <style>
-      body {
-        margin: 0;
-        height: 100vh;
-        background-image: url('历史人物.jpg');
-        background-repeat:no-repeat;
-        background-attachment:fixed;
-        }
+ 
       div {
           opacity: 0.7;
         }
@@ -25,8 +19,11 @@
         opacity: 0.4;
         background-color: rgb(245, 243, 240);
       }
-      .heise{
-        background-color: rgb(205, 86, 86);
+      .toubu{
+        background-color: rgb(54, 202, 228);
+      }
+      .ba{
+        background-color: rgba(12, 217, 224, 0.466);
       }
       .flex1{
         flex: 1;
@@ -46,24 +43,32 @@
       .mgr8{
         margin-right: 8px;
       }
-      img 
-      { width:100%; -ms-interpolation-mode: bicubic;} 
+      
+     /* img { width:100%; -ms-interpolation-mode: bicubic;}  */
+
 
     </style>
     
     <!-- margin：边距，background-color；背景颜色-->
   </head>
-  <body class="flex"> 
+  <body class="flex ba" > 
     <!-- 侧边栏-->
-     <vid style="width: 200px;z-index: 1;" class="baise flex column">
-      <vid><img src="1.jpg" width="100"></vid>
+     <vid style="width: 20%;z-index: 2;" class="baise flex column bianju">
+      <!-- 头像或图标 -->
+      <ivd style="height: 100px;" class="toubu">
 
+        </ivd>
+        <vid></vid>
+        <vid></vid>
+        <vid></vid>
      </vid>
     <!--主区域-->
      <vid class="flex1  flex column">
 
       <!--头部栏-->
-      <vid  style="height: 100px;z-index: 1;" class="heise "></vid>
+      <vid  style="height: 100px;z-index: 1;" class="toubu bianju">
+        
+      </vid>
        <!--内容-->
       <vid  style="overflow: auto;" class=" flex">
         <!--左区-->
@@ -80,7 +85,7 @@
           <!-- 滚动区 -->
           <vid class="flex column">
             <vid style="height: 200px;" class="baise bianju">
-            <img src="历史时刻.jpg" >
+            <!-- <img src="历史时刻.jpg" width="100%"> -->
             </vid>
             <vid style="height: 200px;" class="baise bianju"></vid>
             <vid style="height: 200px;" class="baise bianju"></vid>
