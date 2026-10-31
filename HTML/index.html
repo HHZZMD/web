@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>我的第一个网页</title>
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        background-color: rgb(204, 227, 247);
+      }
+      /* * {
+        border: 1px solid rgb(167, 56, 56);
+      } */
+      .flex {
+        display: flex;
+      }
+      .baise {
+        background-color: rgb(245, 243, 240);
+      }
+      .heise{
+        background-color: rgb(205, 86, 86);
+      }
+      .flex1{
+        flex: 1;
+      }
+      .column{
+        flex-direction: column;
+      }
+      .bianju{
+        margin: 8px;
+      }
+      .mgt8{
+        margin-top: 8px;
+      }
+      .mgl8{
+        margin-left: 8px;
+      }
+      .mgr8{
+        margin-right: 8px;
+      }
+      @media screen {
+        
+      }
+    </style>
+    
+    <!-- margin：边距，background-color；背景颜色-->
+  </head>
+  <body class="flex"> 
+    <!-- 侧边栏-->
+     <vid style="width: 200px;z-index: 1;" class="baise flex column">
+      <vid><img src="1.jpg" width="100"></vid>
+
+     </vid>
+    <!--主区域-->
+     <vid class="flex1  flex column">
+
+      <!--头部栏-->
+      <vid  style="height: 100px;z-index: 1;" class="heise "></vid>
+       <!--内容-->
+      <vid  style="overflow: auto;" class=" flex">
+        <!--左区-->
+          <vid style="flex: 3;">
+            <!-- 数据区 -->
+          <vid  style="height:100px ;" class="flex  bianju">
+            <vid  class="flex flex1 baise  "></vid>
+            <vid  class="flex flex1 baise  "></vid>
+            <vid  class="flex flex1 baise  "></vid>
+            <vid  class="flex flex1 baise  "></vid>
+            <vid  class="flex flex1 baise  "></vid>
+
+          </vid>
+          <!-- 滚动区 -->
+          <vid class="flex column">
+            <vid style="height: 200px;" class="baise bianju"></vid>
+            <vid style="height: 200px;" class="baise bianju"></vid>
+            <vid style="height: 200px;" class="baise bianju"></vid>
+            <vid style="height: 200px;" class="baise bianju"></vid>
+            <vid style="height: 200px;" class="baise bianju"></vid>
+            <vid style="height: 200px;" class="baise bianju"></vid>
+            <vid style="height: 200px;" class="baise bianju"></vid>
+            <vid style="height: 200px;" class="baise bianju"></vid>
+          </vid>
+          </vid>
+           <!--右区--> 
+          <vid style="flex: 1;"></vid>
+      </vid>
+
+      </vid>
+
+     </vid>
+  
+  </body>
+
+  </body>
+</html>
