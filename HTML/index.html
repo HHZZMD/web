@@ -1,107 +1,153 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>我的第一个网页</title>
-    <style>
- body{
-  margin: 0;
-  background:linear-gradient(267deg, #2d3f7a 10%, #4a63c8 30%, #8ec5c8 50%);
 
- }
-      div.vid {
-          opacity: 0.7;
-        }
-      
-      .flex {
-        display: flex;
-      }
-      .baise {
-        opacity: 0.4;
-        background: linear-gradient(187deg, #2d3f7a 0%, #4a63c8 50%, #8ec5c8 100%);
-      }
-      .toubu{
-        background-color: rgb(54, 202, 228);
-      }
-      .ba{
-        background-color: rgba(12, 217, 224, 0.466);
-      }
-      .flex1{
-        flex: 1;
-      }
-      .column{
-        display: flex;
-        flex-direction: column;
-      }
-      .bianju{
-        margin: 8px;
-      }
-      .mgt8{
-        margin-top: 8px;
-      }
-      .mgl8{
-        margin-left: 8px;
-      }
-      .mgr8{
-        margin-right: 8px;
-      }
-      
-     /* img { width:100%; -ms-interpolation-mode: bicubic;}  
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的第一个网页</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: rgb(0, 0, 0);
+      display: flex;
+
+
+    }
+
+    button.a1 {
+      background-color: #4a7fb5;
+      color: #ffffff;
+      height: 30px;
+      width: 100px;
+    }
+
+    button:hover.a1 {
+      border: #2d3f7a 1px
+    }
+
+    /* ************************************************************************* */
+    /* div 样式 */
+    div.toubu {
+      background-color: #20242b;
+    }
+
+    /* 区域样式透明度 */
+    div.vid {
+      opacity: 1;
+    }
+
+    /* 鼠标悬停时增加不透明度 */
+    div:hover.vid {
+      opacity: 1;
+      border: 2px solid#4a7fb5;
+    }
+
+    div:hover.toubu {
+      opacity: 1;
+      border: 2px solid#4a7fb5;
+    }
+
+    div.cebiangyingcang {
+      display: none
+    }
+
+    /* ************************************************************************ */
+    .flex {
+      display: flex;
+    }
+
+    .boxcolor {
+      opacity: 0.4;
+      background: linear-gradient(187deg, #2d3f7a 0%, #4a63c8 50%, #8ec5c8 100%);
+    }
+
+
+
+    .ba {
+      background-color: rgba(12, 217, 224, 0.466);
+    }
+
+    .flex1 {
+      flex: 1;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bianju {
+      margin: 8px;
+    }
+
+    .mgt8 {
+      margin-top: 8px;
+    }
+
+    .mgl8 {
+      margin-left: 8px;
+    }
+
+    .mgr8 {
+      margin-right: 8px;
+    }
+
+    /* img { width:100%; -ms-interpolation-mode: bicubic;}  
         // 保留此样式以便将来为图片设置宽度和插值模式
      */
+  </style>
+
+  <!-- margin：边距，background-color：背景颜色 -->
+</head>
+
+<body>
+  <!-- 侧边栏 ***********************************************************-->
+  <div style="width: 20%;z-index: 2;" class="boxcolor flex column bianju vid cebiangyingcang">
+    <!-- 头像或图标 -->
+    <div style="height: 100px;" class="toubu vid">
+      <p style="font-size: 20px; margin: 18px;color: #ff1500;text-align: center; text-decoration: dashed;">
+        <b>hello</b>HTML
+      </p>
+    </div>
+    <div class="vid"></div>
+    <div class="vid"></div>
+    <div class="vid"></div>
+  </div>
+  <!--主区域 ***********************************************************-->
+  <div class="flex1  flex column">
+
+    <!--头部栏-->
+    <div style="height: 100px;z-index: 1;" class="toubu bianju">
+      <button class="a1">按钮</button>
+    </div>
+    <!--内容-->
+    <div style="overflow: auto;" class=" flex">
+      <!--左区-->
+      <div style="flex: 3;">
+        <!-- 数据区 -->
+        <div style="height:100px ;" class="flex  bianju boxcolor">
 
 
-    </style>
-    
-    <!-- margin：边距，background-color：背景颜色 -->
-  </head>
-  <body class="flex ba" > 
-    <!-- 侧边栏-->
-     <div style="width: 20%;z-index: 2;" class="baise flex column bianju vid">
-      <!-- 头像或图标 -->
-      <div style="height: 100px;" class="toubu vid">
-        <p style="font-size: 20px; margin: 18px;color: #ff1500;text-align: center; text-decoration: dashed;"><b>hello</b>HTML</p>
         </div>
-        <div class="vid"></div>
-        <div class="vid"></div>
-        <div class="vid"></div>
-     </div>
-    <!--主区域-->
-     <div class="flex1  flex column">
-
-      <!--头部栏-->
-      <div  style="height: 100px;z-index: 1;" class="toubu bianju">
-        
-      </div>
-       <!--内容-->
-      <div  style="overflow: auto;" class=" flex">
-        <!--左区-->
-          <div style="flex: 3;">
-            <!-- 数据区 -->
-          <div  style="height:100px ;" class="flex  bianju">
-           
-
-          </div>
-          <!-- 滚动区 -->
-          <div class="flex column">
-            <div style="height: 200px;" class="baise bianju">
+        <!-- 滚动区 -->
+        <div class="flex column">
+          <div style="height: 200px;" class="boxcolor bianju">
             <!-- <img src="历史时刻.jpg" width="100%"> -->
-            </div>
-            <div style="height: 200px;" class="baise bianju"></div>
-           
-           
           </div>
-          </div>
-           <!--右区--> 
-          <div style="flex: 1;"></div>
+          <div style="height: 200px;" class="boxcolor bianju"></div>
+
+
+        </div>
       </div>
 
-      </div>
 
-     </div>
-  
-  </body>
+    </div>
 
-  
+  </div>
+
+  </div>
+
+</body>
+
+
 </html>
