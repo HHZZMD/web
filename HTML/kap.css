@@ -1,0 +1,52 @@
+/* 卡片样式 */
+.party {
+	--accent: #ffd60a;
+	display: grid;
+	place-items: center;
+	padding: 40px;
+	font-family: sans-serif;
+	font-size: 22px;
+	/* color: var(--accent); */
+}
+.card {
+	width: 500px;
+	padding: 20px;
+	border-radius: 30px;
+	overflow: hidden;
+	background: white;
+	box-shadow: 0 8px 24px #0003;
+}
+.banner {
+	padding: 40px 36px 80px;
+	background: var(--accent);
+	color: #000;
+}
+.banner h1 {
+	margin: 0;
+}
+ul.re {
+	display: flex; /* 横向排成一排 */
+	gap: 1px; /* 圆之间的间距 */
+	list-style: none; /* 去掉默认圆点 */
+	padding: 0;
+	justify-content: center;
+	margin: 0;
+}
+li{
+	width: 64px;
+	height: 64px; /* 宽高相等才是正圆 */
+	border-radius: 50%; /* 50% = 正圆 */
+	background: #ffd60a; /* 圆背景色（你之前定义的亮黄） */
+	display: flex; /* 让文字在圆内居中 */
+	align-items: center; /* 垂直居中 */
+	justify-content: center; /* 水平居中 */
+	font-family: sans-serif;
+	font-weight: 600;
+}
+a{
+    color: #000;
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: underline;
+}

@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="wasteland">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TACTICAL HUD LAB · 战术指挥界面实验室</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Share+Tech+Mono&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ============================================================
+   战术 HUD / 废土工业风实验室 · 单文件实例
+   以 ak.hypergryph.com（明日方舟官网）为拆解样本
+   令牌驱动：切皮肤 = 改主点缀色，全站联动
+   ============================================================ */
+
+    :root {
+      --bg: #0e0f12;
+      --bg-2: #16181d;
+      --panel: #1b1e24;
+      --panel-2: #20242b;
+      --ink: #e9e6df;
+      /* 暖白，不是纯白 */
+      --ink-dim: #9a958c;
+      /* 暖灰 */
+      --line: rgba(220, 214, 200, .16);
+      --grid-line: rgba(220, 214, 200, .07);
+      --accent: #d8463c;
+      /* 主点缀：罗德岛红 */
+      --accent-amber: #e0b13a;
+      --accent-blue: #4a7fb5;
+      --notch: 14px;
+      /* 斜切角尺寸 */
+      --font-display: 'Oswald', 'Archivo Narrow', 'Arial Narrow', sans-serif;
+      --font-mono: 'Share Tech Mono', ui-monospace, 'Cascadia Code', monospace;
+      --font-cn: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      --radius: 2px;
+      --gap: 24px;
+      --t-fast: .15s;
+      --t-med: .35s;
+    }
+
+    /* 皮肤二：警戒黄（amber 主导） */
+    [data-theme="alert"] {
+      --accent: #e0b13a;
+      --accent-amber: #e0b13a;
+      --accent-blue: #4a7fb5;
+      --line: rgba(224, 177, 58, .22);
+      --grid-line: rgba(224, 177, 58, .08);
+    }
+
+    /* 皮肤三：深蓝档案（blue 主导） */
+    [data-theme="abyss"] {
+      --accent: #4a7fb5;
+      --accent-amber: #e0b13a;
+      --accent-blue: #4a7fb5;
+      --line: rgba(74, 127, 181, .24);
+      --grid-line: rgba(74, 127, 181, .09);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-cn);
+      color: var(--ink);
+      background:
+        radial-gradient(140% 100% at 50% -10%, var(--bg-2) 0%, var(--bg) 65%) fixed,
+        var(--bg);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background var(--t-med), color var(--t-med);
+    }
+
+    /* 颗粒 + 半调噪点叠层，可一键关 */
+    .fx-grain::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      pointer-events: none;
+      background-image:
+        radial-gradient(rgba(233, 230, 223, .05) 1px, transparent 1px),
+        radial-gradient(rgba(233, 230, 223, .035) 1px, transparent 1px);
+      background-size: 5px 5px, 9px 9px;
+      background-position: 0 0, 2px 3px;
+      opacity: .9;
+    }
+
+    .fx-grain::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 8999;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+      opacity: .05;
+      mix-blend-mode: overlay;
+    }
+
+    body.no-fx::before,
+    body.no-fx::after {
+      display: none;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: var(--font-display);
+      letter-spacing: .04em;
+      line-height: 1.1;
+      margin: 0;
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* 斜切角：切右上 + 左下，做出"箭头/指示"方向感 */
+    .notch {
+      clip-path: polygon(0 0,
+          calc(100% - var(--notch)) 0,
+          100% var(--notch),
+          100% 100%,
+          var(--notch) 100%,
+          0 calc(100% - var(--notch)));
+    }
+
+    /* ===================== 顶部导航 ===================== */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 8000;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding: 12px 20px;
+      background: linear-gradient(180deg, rgba(14, 15, 18, .95), rgba(14, 15, 18, .6));
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav .brand {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: .14em;
+      color: var(--ink);
+      margin-right: auto;
+    }
+
+    .nav .brand b {
+      color: var(--accent);
+    }
+
+    .nav a {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: .08em;
+      color: var(--ink-dim);
+    }
+
+    .nav a:hover {
+      color: var(--accent);
+    }
+
+    .skin-switch {
+      display: flex;
+      gap: 8px;
+    }
+
+    .skin-btn {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .08em;
+      cursor: pointer;
+      padding: 6px 12px;
+      color: var(--ink);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      transition: var(--t-fast);
+    }
+
+    .skin-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .skin-btn.active {
+      background: var(--accent);
+      color: #0e0f12;
+      border-color: var(--accent);
+    }
+
+    .fx-toggle {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      cursor: pointer;
+      color: var(--ink-dim);
+    }
+
+    .fx-toggle:hover {
+      color: var(--accent);
+    }
+
+    /* ===================== 英雄区 ===================== */
+    .hero {
+      position: relative;
+      padding: 48px 0 56px;
+    }
+
+    /* 顶部新闻滚动条 */
+    .ticker {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-dim);
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 8px 14px;
+      margin-bottom: 36px;
+    }
+
+    .ticker .tag {
+      background: var(--accent);
+      color: #0e0f12;
+      padding: 2px 8px;
+      letter-spacing: .12em;
+      font-weight: 700;
+    }
+
+    .ticker .date {
+      color: var(--accent);
+    }
+
+    .ticker .more {
+      margin-left: auto;
+      color: var(--accent);
+      letter-spacing: .1em;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr .9fr;
+      gap: var(--gap);
+      align-items: stretch;
+    }
+
+    @media (max-width: 760px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .frame {
+      position: relative;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 28px;
+      transition: var(--t-fast);
+    }
+
+    .frame:hover {
+      border-color: var(--accent);
+    }
+
+    .frame .corner {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--accent);
+    }
+
+    .frame .corner.tl {
+      top: -1px;
+      left: -1px;
+      border-right: 0;
+      border-bottom: 0;
+    }
+
+    .frame .corner.br {
+      bottom: -1px;
+      right: -1px;
+      border-left: 0;
+      border-top: 0;
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 8vw, 88px);
+      font-weight: 700;
+      letter-spacing: .02em;
+      color: var(--ink);
+      text-transform: uppercase;
+    }
+
+    .hero h1 b {
+      color: var(--accent);
+    }
+
+    .hero .en {
+      font-family: var(--font-mono);
+      color: var(--ink-dim);
+      letter-spacing: .35em;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .hero .desc {
+      color: var(--ink-dim);
+      margin-top: 18px;
+      max-width: 46ch;
+      font-size: 14px;
+    }
+
+    /* 角色聚焦卡 */
+    .spotlight {
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .spotlight .head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      background: repeating-linear-gradient(45deg, transparent 0 10px, rgba(216, 70, 60, .05) 10px 20px);
+    }
+
+    .spotlight .codename {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: .1em;
+    }
+
+    .spotlight .cn {
+      font-family: var(--font-cn);
+      color: var(--ink-dim);
+      font-size: 13px;
+    }
+
+    .spotlight .body {
+      padding: 16px 18px;
+      flex: 1;
+    }
+
+    .spotlight .row {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 6px 0;
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .spotlight .row span:first-child {
+      color: var(--ink-dim);
+    }
+
+    .spotlight .row span:last-child {
+      color: var(--ink);
+    }
+
+    .spotlight .bio {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--ink-dim);
+    }
+
+    /* ===================== 通用区块 ===================== */
+    section {
+      padding: 52px 0;
+      position: relative;
+      z-index: 5;
+    }
+
+    .sec-title {
+      font-size: clamp(22px, 4vw, 34px);
+      color: var(--ink);
+      text-transform: uppercase;
+    }
+
+    .sec-title::before {
+      content: "▍";
+      color: var(--accent);
+      margin-right: 8px;
+    }
+
+    .sec-sub {
+      color: var(--ink-dim);
+      margin: 6px 0 26px;
+      font-size: 14px;
+      font-family: var(--font-mono);
+      letter-spacing: .04em;
+    }
+
+    .lead {
+      color: var(--ink-dim);
+      max-width: 720px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--gap);
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      transition: var(--t-fast);
+    }
+
+    .panel:hover {
+      border-color: var(--accent);
+    }
+
+    .panel h3 {
+      font-size: 15px;
+      color: var(--ink);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .panel p {
+      margin: 8px 0 0;
+      color: var(--ink-dim);
+      font-size: 13px;
+    }
+
+    .code {
+      display: block;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: #0a0b0d;
+      border-left: 3px solid var(--accent);
+      border-radius: 3px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #c9d4dd;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* ===================== 令牌面板 ===================== */
+    .swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 14px;
+    }
+
+    .swatch {
+      cursor: pointer;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      transition: var(--t-fast);
+    }
+
+    .swatch:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .swatch .chip {
+      height: 60px;
+    }
+
+    .swatch .meta {
+      padding: 8px 10px;
+    }
+
+    .swatch .name {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink);
+    }
+
+    .swatch .hex {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-dim);
+    }
+
+    /* ===================== 手法演示 ===================== */
+    .tech {
+      min-height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 斜切角 demo */
+    .notch-box {
+      width: 200px;
+      height: 90px;
+      background: var(--panel-2);
+      border: 1px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      color: var(--accent);
+      letter-spacing: .1em;
+    }
+
+    /* 警戒条纹 */
+    .stripes {
+      width: 200px;
+      height: 70px;
+      background: repeating-linear-gradient(45deg, var(--accent) 0 12px, transparent 12px 24px);
+      border: 1px solid var(--line);
+    }
+
+    /* 双语标签 */
+    .bilang {
+      text-align: center;
+    }
+
+    .bilang .en {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 30px;
+      letter-spacing: .14em;
+      color: var(--ink);
+      text-transform: uppercase;
+    }
+
+    .bilang .cn {
+      font-family: var(--font-cn);
+      font-size: 13px;
+      color: var(--ink-dim);
+      letter-spacing: .3em;
+    }
+
+    /* 失去同步 故障块 */
+    .sync {
+      width: 200px;
+      height: 90px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      color: var(--ink-dim);
+      letter-spacing: .1em;
+    }
+
+    .sync .bars {
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent 0 6px, rgba(216, 70, 60, .18) 6px 8px),
+        repeating-linear-gradient(90deg, transparent 0 14px, rgba(74, 127, 181, .12) 14px 16px);
+      opacity: 0;
+      transition: var(--t-med);
+    }
+
+    .sync:hover .bars {
+      opacity: 1;
+      animation: jitter .18s infinite;
+    }
+
+    .sync:hover .lbl {
+      color: var(--accent);
+    }
+
+    @keyframes jitter {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      25% {
+        transform: translate(-2px, 1px);
+      }
+
+      50% {
+        transform: translate(2px, -1px);
+      }
+
+      75% {
+        transform: translate(-1px, -1px);
+      }
+
+      100% {
+        transform: translate(1px, 1px);
+      }
+    }
+
+    /* 灰度低饱和 调色板 */
+    .pal {
+      display: flex;
+      gap: 0;
+    }
+
+    .pal i {
+      width: 34px;
+      height: 60px;
+      display: block;
+    }
+
+    /* ===================== 组件画廊 ===================== */
+    .btn {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 12px 26px;
+      color: var(--ink);
+      background: var(--panel);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      transition: var(--t-fast);
+      position: relative;
+    }
+
+    .btn:hover {
+      background: var(--accent);
+      color: #0e0f12;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn.ghost {
+      border-color: var(--line);
+      color: var(--ink-dim);
+    }
+
+    .btn.ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: transparent;
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .12em;
+      padding: 4px 10px;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      background: rgba(216, 70, 60, .08);
+      margin: 4px;
+    }
+
+    .badge.amber {
+      color: var(--accent-amber);
+      border-color: var(--accent-amber);
+      background: rgba(224, 177, 58, .08);
+    }
+
+    .badge.blue {
+      color: var(--accent-blue);
+      border-color: var(--accent-blue);
+      background: rgba(74, 127, 181, .08);
+    }
+
+    /* 世界词条网格 */
+    .terms {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .term {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 16px;
+      transition: var(--t-fast);
+    }
+
+    .term:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .term .en {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: .08em;
+      color: var(--ink);
+      text-transform: uppercase;
+    }
+
+    .term .cn {
+      font-family: var(--font-cn);
+      font-size: 12px;
+      color: var(--ink-dim);
+      margin-top: 2px;
+    }
+
+    .term .no {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+    }
+
+    /* 时间线 */
+    .timeline {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .timeline .yr {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      color: var(--ink-dim);
+    }
+
+    .timeline .yr.on {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ===================== 实时令牌面板 ===================== */
+    .live {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    .live .row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      background: #0a0b0d;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .live .dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      flex: none;
+      border: 1px solid var(--line);
+    }
+
+    .live .k {
+      color: var(--ink-dim);
+    }
+
+    .live .v {
+      color: #c9d4dd;
+      margin-left: auto;
+    }
+
+    /* ===================== 页脚 ===================== */
+    footer {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid var(--line);
+      color: var(--ink-dim);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: .06em;
+    }
+
+    #toast {
+      position: fixed;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%) translateY(20px);
+      z-index: 9999;
+      background: var(--accent);
+      color: #0e0f12;
+      padding: 10px 18px;
+      border-radius: var(--radius);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: .05em;
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--t-med);
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .sync:hover .bars {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+
+<body class="fx-grain">
+
+  <!-- ===================== 导航 ===================== -->
+  <nav class="nav">
+    <div class="brand">TACTICAL<b>·</b>HUD</div>
+    <a href="#tokens">令牌</a>
+    <a href="#tech">手法</a>
+    <a href="#components">组件</a>
+    <a href="#live">实时面板</a>
+    <div class="skin-switch">
+      <button class="skin-btn active" data-skin="wasteland">废土红</button>
+      <button class="skin-btn" data-skin="alert">警戒黄</button>
+      <button class="skin-btn" data-skin="abyss">深蓝档</button>
+    </div>
+    <span class="fx-toggle" id="fxToggle">颗粒噪点：开</span>
+  </nav>
+
+  <!-- ===================== 英雄区 ===================== -->
+  <header class="hero wrap">
+    <div class="ticker">
+      <span class="tag">BREAKING NEWS</span>
+      <span class="date">2026 // 10 / 30</span>
+      <span>版本更新停机维护公告 · 《冻土与火种》网页活动开启</span>
+      <a class="more" href="#tokens">READ MORE &gt;</a>
+    </div>
+
+    <div class="hero-grid">
+      <div class="frame notch">
+        <span class="corner tl"></span><span class="corner br"></span>
+        <h1>罗德岛<br><b>RHODES</b> ISLAND</h1>
+        <div class="en">RHODES ISLAND · COMMAND INTERFACE</div>
+        <p class="desc">以 ak.hypergryph.com（明日方舟官网）为样本的战术指挥界面拆解：灰度低饱和底 + 红/黄/蓝点缀、斜切角、颗粒噪点、双语标签、失去同步故障。所有元素由同一组令牌驱动。</p>
+      </div>
+
+      <div class="spotlight notch">
+        <div class="head">
+          <div>
+            <div class="codename">KAL'TSIT</div>
+            <div class="cn">凯尔希</div>
+          </div>
+          <div class="cn" style="color:var(--accent)">OPERATOR</div>
+        </div>
+        <div class="body">
+          <div class="row"><span>CHARACTER VOICE</span><span>日笠阳子 / 刘雪</span></div>
+          <div class="row"><span>AFFILIATION</span><span>RHODES ISLAND</span></div>
+          <div class="row"><span>STATUS</span><span style="color:var(--accent)">ACTIVE</span></div>
+          <div class="bio">罗德岛最高管理者之一，阿米娅的直接辅导者，医疗部门总负责人。在阿米娅背后最稳固的援护者。</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- 介绍 -->
+    <section>
+      <h2 class="sec-title">这是什么风格</h2>
+      <p class="lead">它叫<strong>废土工业 / 战术 HUD 风</strong>：把"军事指挥终端 +
+        末世废土"当成界面语言。底色是接近黑的灰（`#0e0f12`），文字是暖白而非纯白，点缀色极少——红代表暴力/血、黄代表警戒、蓝代表沉寂/哀伤。它没有合成波的霓虹张扬，也没有 Y2K 的果冻光泽，靠<strong>低饱和灰度
+          + 斜切角 + 颗粒噪点 + 双语技术标签</strong>建立"近未来、硬朗、可信"的辨识度。本页所有元素都由同一组 CSS 变量驱动——右上角切换主点缀色，整页联动。</p>
+    </section>
+
+    <!-- 令牌面板 -->
+    <section id="tokens">
+      <h2 class="sec-title">① 设计令牌（点击复制）</h2>
+      <p class="sec-sub">下方色块读取当前皮肤的实时计算值，点一下复制 HEX。</p>
+      <div class="swatches" id="swatches"></div>
+    </section>
+
+    <!-- 手法演示 -->
+    <section id="tech">
+      <h2 class="sec-title">② 六大手法实验室</h2>
+      <p class="sec-sub">每个手法都能单独抽出来用，卡片里有可抄的 CSS 片段。</p>
+      <div class="grid-2">
+
+        <div class="panel">
+          <h3>斜切角 Notch</h3>
+          <div class="tech">
+            <div class="notch-box notch">CLIP-PATH</div>
+          </div>
+          <p>用 clip-path 切掉右上+左下，做出"箭头/指示"方向感。</p>
+          <code class="code">.notch{clip-path:polygon(
+  0 0, calc(100% - var(--notch)) 0,
+  100% var(--notch), 100% 100%,
+  var(--notch) 100%, 0 calc(100% - var(--notch)));}</code>
+        </div>
+
+        <div class="panel">
+          <h3>颗粒 / 半调噪点</h3>
+          <div class="tech">
+            <div class="bilang">
+              <div class="en">GRAIN</div>
+              <div class="cn">颗粒底纹</div>
+            </div>
+          </div>
+          <p>固定叠层：点阵半调 + SVG feTurbulence 微噪，overlay 混合，可一键关。</p>
+          <code class="code">body::after{content:"";position:fixed;inset:0;
+  background:url("data:image/svg+xml,...feTurbulence...");
+  opacity:.05;mix-blend-mode:overlay;pointer-events:none}</code>
+        </div>
+
+        <div class="panel">
+          <h3>警戒条纹</h3>
+          <div class="tech">
+            <div class="stripes"></div>
+          </div>
+          <p>45° 重复斜纹 = 工业警戒线，常用于标题底/边框强调。</p>
+          <code class="code">.stripes{background:repeating-linear-gradient(
+  45deg, var(--accent) 0 12px, transparent 12px 24px)}</code>
+        </div>
+
+        <div class="panel">
+          <h3>双语技术标签</h3>
+          <div class="tech">
+            <div class="bilang">
+              <div class="en">REUNION</div>
+              <div class="cn">整合运动</div>
+            </div>
+          </div>
+          <p>大写拉丁 + 字距拉开的展示字，配小号中文，制造"情报终端"感。</p>
+          <code class="code">.en{font-family:var(--font-display);
+  font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.cn{font-family:var(--font-cn);letter-spacing:.3em;color:var(--ink-dim)}</code>
+        </div>
+
+        <div class="panel">
+          <h3>失去同步 故障</h3>
+          <div class="tech">
+            <div class="sync"><span class="bars"></span><span class="lbl">SIGNAL LOST</span></div>
+          </div>
+          <p>hover 时马赛克条纹 + 抖动，致敬原站"失去同步"梗。</p>
+          <code class="code">.sync:hover .bars{opacity:1;
+  animation:jitter .18s infinite}
+@keyframes jitter{50%{transform:translate(2px,-1px)}}</code>
+        </div>
+
+        <div class="panel">
+          <h3>灰度 + 点缀</h3>
+          <div class="tech">
+            <div class="pal">
+              <i style="background:#0e0f12"></i><i style="background:#16181d"></i>
+              <i style="background:#9a958c"></i><i style="background:#e9e6df"></i>
+              <i style="background:var(--accent)"></i><i style="background:var(--accent-amber)"></i>
+              <i style="background:var(--accent-blue)"></i>
+            </div>
+          </div>
+          <p>大面积灰 + 零星红黄蓝，饱和度刻意压低才出"质感"。</p>
+          <code class="code">/* 红=暴力 黄=警戒 蓝=沉寂；暖白#e9e6df非纯白 */
+body{background:#0e0f12;color:#e9e6df}
+.accent{color:var(--accent)}</code>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 组件画廊 -->
+    <section id="components">
+      <h2 class="sec-title">③ 组件画廊</h2>
+      <p class="sec-sub">按钮、徽章、世界词条、时间线，全套同一令牌。</p>
+
+      <div class="grid-2">
+        <div class="panel">
+          <h3>按钮</h3>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+            <button class="btn">DEPLOY</button>
+            <button class="btn ghost">STANDBY</button>
+          </div>
+          <p style="margin-top:12px">hover 填充主点缀色 + 反白；ghost 只描边做次级操作。</p>
+        </div>
+
+        <div class="panel">
+          <h3>徽章 / 状态</h3>
+          <div>
+            <span class="badge">INFECTED</span>
+            <span class="badge amber">WARNING</span>
+            <span class="badge blue">NOMADIC</span>
+          </div>
+          <p style="margin-top:12px">红/黄/蓝三色区分语义，半透明底不抢画面。</p>
+        </div>
+
+        <div class="panel">
+          <h3>世界词条网格</h3>
+          <div class="terms">
+            <div class="term">
+              <div class="no">01</div>
+              <div class="en">Originium</div>
+              <div class="cn">源石</div>
+            </div>
+            <div class="term">
+              <div class="no">02</div>
+              <div class="en">Reunion</div>
+              <div class="cn">整合运动</div>
+            </div>
+            <div class="term">
+              <div class="no">03</div>
+              <div class="en">Infected</div>
+              <div class="cn">感染者</div>
+            </div>
+            <div class="term">
+              <div class="no">04</div>
+              <div class="en">Rhodes Island</div>
+              <div class="cn">罗德岛</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>时间线</h3>
+          <div class="timeline">
+            <span class="yr">2021</span>
+            <span class="yr">2024</span>
+            <span class="yr on">2026</span>
+            <span class="yr">FUTURE</span>
+          </div>
+          <p style="margin-top:12px">等宽数字的"档案感"时间轴，当前项用主点缀色高亮。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 实时令牌面板 -->
+    <section id="live">
+      <h2 class="sec-title">④ 实时令牌面板</h2>
+      <p class="sec-sub">下方由 JS 实时读取 <code>getComputedStyle</code>，切换皮肤立即变化。</p>
+      <div class="live" id="livePanel"></div>
+    </section>
+
+  </main>
+
+  <footer>
+    TACTICAL HUD LAB · 单文件零依赖实例 · 配套文档《09_战术HUD废土工业风拆解_教学文档.md》<br>
+    风格样本 ak.hypergryph.com；配色为本地协调复现值，未声称访问原站源码。
+  </footer>
+
+  <div id="toast"></div>
+
+  <script>
+    "use strict";
+
+    var COLOR_TOKENS = [
+      "--bg", "--bg-2", "--panel", "--panel-2", "--ink", "--ink-dim",
+      "--accent", "--accent-amber", "--accent-blue"
+    ];
+    var LIVE_TOKENS = COLOR_TOKENS.concat(["--notch", "--line"]);
+
+    var THEME_LABELS = {
+      wasteland: "废土红 Wasteland",
+      alert: "警戒黄 Alert",
+      abyss: "深蓝档 Abyss"
+    };
+
+    function renderSwatches() {
+      var root = getComputedStyle(document.documentElement);
+      var host = document.getElementById("swatches");
+      host.innerHTML = "";
+      COLOR_TOKENS.forEach(function (name) {
+        var val = root.getPropertyValue(name).trim();
+        var el = document.createElement("div");
+        el.className = "swatch";
+        el.innerHTML =
+          '<div class="chip" style="background:' + val + '"></div>' +
+          '<div class="meta"><div class="name">' + name + '</div>' +
+          '<div class="hex">' + val + '</div></div>';
+        el.addEventListener("click", function () { copyText(val); });
+        host.appendChild(el);
+      });
+    }
+
+    function renderLive() {
+      var root = getComputedStyle(document.documentElement);
+      var host = document.getElementById("livePanel");
+      host.innerHTML = "";
+      LIVE_TOKENS.forEach(function (name) {
+        var val = root.getPropertyValue(name).trim();
+        var row = document.createElement("div");
+        row.className = "row";
+        var isColor = /^(#|rgb|hsl)/.test(val);
+        row.innerHTML =
+          '<span class="dot" style="background:' + (isColor ? val : 'transparent') + '"></span>' +
+          '<span class="k">' + name + '</span>' +
+          '<span class="v">' + val + '</span>';
+        host.appendChild(row);
+      });
+    }
+
+    function copyText(text) {
+      var done = function () { showToast("已复制 " + text); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else { fallback(); }
+      function fallback() {
+        var ta = document.createElement("textarea");
+        ta.value = text; document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); done(); } catch (e) { showToast("复制失败：" + text); }
+        document.body.removeChild(ta);
+      }
+    }
+
+    var toastTimer = null;
+    function showToast(msg) {
+      var t = document.getElementById("toast");
+      t.textContent = msg; t.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { t.classList.remove("show"); }, 1600);
+    }
+
+    function setSkin(name) {
+      document.documentElement.setAttribute("data-theme", name);
+      var btns = document.querySelectorAll(".skin-btn");
+      btns.forEach(function (b) {
+        b.classList.toggle("active", b.getAttribute("data-skin") === name);
+      });
+      showToast("主点缀：" + (THEME_LABELS[name] || name));
+      requestAnimationFrame(function () { renderSwatches(); renderLive(); });
+    }
+
+    function toggleFx() {
+      var on = document.body.classList.toggle("no-fx");
+      document.getElementById("fxToggle").textContent = on ? "颗粒噪点：关" : "颗粒噪点：开";
+    }
+
+    document.querySelectorAll(".skin-btn").forEach(function (b) {
+      b.addEventListener("click", function () { setSkin(b.getAttribute("data-skin")); });
+    });
+    document.getElementById("fxToggle").addEventListener("click", toggleFx);
+
+    renderSwatches();
+    renderLive();
+  </script>
+</body>
+
+</html>

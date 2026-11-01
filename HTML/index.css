@@ -1,0 +1,42 @@
+.hero {
+	height: 880px;
+	display: grid;
+	place-content: center;
+	text-align: center;
+	color: #fcfcfc;
+	font-family: sans-serif;
+}
+/* 同心圆样式 --------------------------------------------*/
+.rings {
+	background: repeating-radial-gradient(
+			circle at 50% 100%,
+			transparent 0 1px,
+			#ffffff26 100px
+		)
+		#4e085370;
+}
+/* 渐变 --------------------------------------------------*/
+.glow {
+	background:
+		radial-gradient(circle at 50% 0%, #b40be7, transparent 60%),
+		radial-gradient(circle at 90% 100%, #3dbfe7, transparent 40%), #000000;
+}
+/* 星空样式 --------------------------------------------- */
+/* 英文字体样式 */
+
+ul{
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	list-style: none;
+
+}
+a{
+	font-family: sans-serif;
+	color: white;
+	text-decoration: none;
+	opacity: 0.8;
+}
+a:hover{
+	opacity: 1;
+}
