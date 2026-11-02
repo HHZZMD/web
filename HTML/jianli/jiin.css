@@ -1,0 +1,10 @@
+.as {
+	display: flex;
+	flex-direction: row;
+
+	color: #000;
+}
+.lt {
+	display: flex;
+	flex-direction: inherit;
+}
