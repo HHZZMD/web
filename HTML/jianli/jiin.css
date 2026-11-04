@@ -1,10 +1,96 @@
+/* 丝滑跳转 */
+html {
+	scroll-behavior: smooth; /* 丝滑跳转 */
+	/* overflow-x: hidden; 横向滚动 */
+}
+ul {
+	list-style: none; /* 去掉列表前的点 */
+}
+a {
+	color: #000;
+	text-decoration: none; /* 去掉下划线 */
+}
+a:hover {
+	opacity: 0.5; /* 鼠标悬停时透明度为0.5 */
+}
+body {
+	
+	margin: 0; /* 去掉默认边距 */
+	background-color: #e7bcbc; /* 背景颜色 */
+	line-height: 1.75; /* 行高 */
+	min-height: 100svh; /* 高度为视口高度 */
+	overflow-x: hidden; /* 横向滚动 */
+	transition: background-color 0.3s ease; /* 背景颜色过渡 */
+
+}
+@media (min-width: 640px) {
+
+	.as {
+		display: flex; /* 横向排列 */
+		flex-direction: column; /* 横向排列 */
+		height: 100svh; /* 高度为视口高度 */
+	}
+}
+@media (max-width: 1024px) {
+	.as {
+		display: flex;
+		flex-direction: column;/* 纵向排列 */
+		height: 100svh;
+	}
+}
+/* ------------------------------------------------ */
 .as {
 	display: flex;
 	flex-direction: row;
+	height: 100svh;
 
 	color: #000;
 }
+/* -------------------------------------------------------- */
 .lt {
 	display: flex;
 	flex-direction: inherit;
+	text-align: center;
+}
+p.lt {
+	display: flex;
+	flex-direction: inherit;
+	height: 100px;
+	justify-content: center;
+}
+div.lt {
+	display: flex;
+	flex-direction: inherit;
+	height: 50px;
+	justify-content: center;
+}
+/* - ------------------------------------------------------*/
+/* 横向排列 */
+.row {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+/* ======================================================= */
+.dinbu {
+	position: sticky; /* 默认随文档走，滚到 top:0 才吸住 */
+	top: 0;
+	z-index: 1000;
+	opacity: 0.5;
+	background-color: #ffffff;
+	display: flex;
+	justify-content: left;
+	height: 50px;
+	font-family: sans-serif;
+}
+.haibao{
+	height: 100svh;
+	display: flex;
+	flex-direction: column;
+}
+.wenzi{
+	height: 50%;
+	display: flex;
+	flex-direction:row;
 }

@@ -4,51 +4,74 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>我的第一个网页</title>
+  <title>小胡的个人网站</title>
   <link rel="stylesheet" href="index.css" />
 </head>
 
 <body>
-  <header class="dinbu">
-    <ul>
-      <li><a href="#souyue">首页</a></li>
-      <li><a href="#guanyu">关于我</a></li>
-      <li><a href="contact.html">联系我</a></li>
-    </ul>
+  <header class="dinbu"><!--置顶导航栏 -->
+
+    <nav class="navbar"><!--导航栏 -->
+      <img src="作品集.png" height="30" />
+      <ul>
+        <li><a href="#souye">首页</a></li>
+        <li><a href="#guanyu">关于我</a></li>
+        <li><a href="#skills">技能</a></li>
+        <li><a href="#dibulan">联系我</a></li>
+      </ul>
+    </nav>
 
   </header>
-  <main>
-    <section id="souyue" class="hero glow">
-      <h1>HELLO
+  <main><!--主体内容 -->
 
-      </h1>
-      <p>
-        IM JIMH
-      </p>
+    <section id="souye" class="hero glow">
+      <div style="float: left; width: 100%;">
+        <h1>HELLO</h1>
+        <p>IM <em>HJM</em></p>
+      </div>
+
+
 
     </section>
 
-    <section id="guanyu" class="hero jies">
-      <h2>关于我</h2>
-      <p><a href="jianli/jiin.html"> 这是一个简单的介绍页面。</a></p>
-    </section>
-    <div class="dibu">
-      <ul>
-        <li><a href="https://github.com/HHZZMD">github</a></li>
-        <li> <a href="https://space.bilibili.com/498112090?spm_id_from=333.337.0.0">BILIBILI</a></li>
-        <li><a href="studio/index.html">WEB工具</a></li>
-        <li></li>
-        <li></li>
-      </ul>
-    </div>
+    <section id="guanyu" class="hero ">
 
+      <div class="glass">
+        <h2>关于我</h2>
+        <p><a href="jianli/jiin.html"> 这是一个简单的介绍页面。</a></p>
+      </div>
+      <div class="glass">
+
+        <p>我是一名热爱编程和设计的学生，喜欢探索新技术和创意。我希望通过我的作品和项目，展示我的能力和兴趣。</p>
+      </div>
+
+    </section>
+
+    <section id="skills" class="hero jies">
+      <div>
+        <h2>技能:skills</h2>
+        <p>1、我熟悉<em>HTML</em>、<em>CSS</em>、<em>JavaScript</em>等前端技术，能够独立完成网页设计和开发工作。</p>
+        <p>2、我了解<em>Python</em>和<em>C#</em>等后端技术，能够进行简单的后端开发和维护。</p>
+      </div>
+
+    </section>
+
+    <section class="hero">
+      <div>
+        <h2>感谢您的访问！</h2>
+        <p>希望您在这里度过愉快的时光，期待与您交流和合作！</p>
+      </div>
+    </section>
+    <ul id="dibulan">
+      <li><a href="https://github.com/HHZZMD">github</a></li>
+      <li> <a href="https://space.bilibili.com/498112090?spm_id_from=333.337.0.0">BILIBILI</a></li>
+      <li><a href="studio/index.html">WEB工具</a></li>
+      <li></li>
+      <li></li>
+    </ul>
 
   </main>
 
-
-
-
 </body>
-
 
 </html>

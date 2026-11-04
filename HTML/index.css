@@ -1,37 +1,82 @@
-.hero {
-	height: 880px;
-	display: grid;
-	place-content: center;
-	text-align: center;
-	color: #fcfcfc;
-	font-family: sans-serif;
-	margin: 0;
-}
 html {
-	scroll-behavior: smooth;
+	scroll-behavior: smooth; /* 丝滑跳转 */
+}
+body {
+	margin: 0; /* 去掉默认边距 */
+	background-color: #000000; /* 背景颜色 */
+	line-height: 1.75; /* 行高 */
+	min-height: 100svh; /* 高度为视口高度 */
+	overflow-x: hidden; /* 横向滚动 */
+	transition: background-color 0.3s ease; /* 背景颜色过渡 */
+}
+ul {
+	display: flex; /* 横向排列 */
+	flex-direction: row; /* 横向排列 */
+	justify-content: center; /* 居中 */
+	gap: 10px;/* 间距 */
+	list-style: none;/* 去掉列表前的点 */
+}
+a {
+	font-family: sans-serif; /* 字体 */
+	color: white;
+	text-decoration: none; /* 去掉下划线 */
+	opacity: 1;
+}
+a:hover {
+	color: #21bfeb;
+}
+div:hover{
+	background: rgba(243, 233, 233, 0.1);
+	margin-bottom: 4px;
+
+	
+}
+.hero {
+	min-height: 100svh; /* 高度为视口高度 */
+	display: grid; /* 使用网格布局 */
+	place-content: center; /* 内容居中 */
+	text-align: center; /* 文本居中 */
+	color: #fcfcfc;
+	font-family: sans-serif; /* 字体 */
+	margin: 0; /* 去掉默认边距 */
+}
+#guanyu {
+	background-image: url('A2.jpg'); 
+	background-repeat: no-repeat;          /* 防止图片重复 */
+    background-position: center;           /* 图片居中 */
+    background-size: cover;                /* 图片覆盖整个元素 */
+    
 }
 
-/* 同心圆样式 rings--------------------------------------------*/
-.rings {
-	background: repeating-radial-gradient(
-			circle at 50% 100%,
-			transparent 0 1px,
-			#ffffff26 100px
-		)
-		#4e085370;
+/* 毛玻璃 */
+.glass {
+	
+	
+	width: 80svw;
+	margin: 1px;
+	padding: 1rem;
+	background: rgba(255, 255, 255, 0.12);
+	border-radius: 10px; /* 圆角 */
+	backdrop-filter: blur(16px) saturate(180%);
+	-webkit-backdrop-filter: blur(16px) saturate(180%);
+	border: 1px solid rgba(7, 7, 7, 0.18);
+	box-shadow: 0 8px 32px rgba(15, 23, 42, 0.28);
 }
+
 /* 渐变 背景 glow--------------------------------------------------*/
 .glow {
 	margin: 0;
 	background:
 		radial-gradient(circle at 50% 0%, #b40be7, transparent 60%),
 		radial-gradient(circle at 90% 100%, #3dbfe7, transparent 40%), #000000;
+	/* 渐变 背景 glow--------------------------------------------------*/
 	background-size:
 		200% 200%,
 		200% 200%,
 		100% 100%;
 	animation: glowFloat 12s ease-in-out infinite alternate;
 }
+/* 发光漂浮 */
 @keyframes glowFloat {
 	0% {
 		background-position:
@@ -47,37 +92,27 @@ html {
 	}
 }
 /* 星空样式 --------------------------------------------- */
+
 /* 体样式 */
-.jies {
-	background-color: #000000;
-}
-body {
-	background-color: #000000;
-}
-ul {
-	display: flex;
-	flex-direction: row;
-	gap: 10px;
-	list-style: none;
-}
-a {
-	font-family: sans-serif;
-	color: white;
-	text-decoration: none;
-	opacity: 0.8;
-}
-a:hover {
-	opacity: 1;
+
+.navbar {
+	display: flex; /* 关键：nav 横向排列 */
+	align-items: center; /* 图标和菜单垂直居中 */
+	gap: 24px;
+	width: 100%;
+	padding: 10px 24px;
+	background: #000000; /* 背景透明 */
 }
 .dinbu {
 	position: sticky; /* 默认随文档走，滚到 top:0 才吸住 */
 	top: 0;
-	z-index: 1000;
-	opacity: 0.5;
-	background-color: #000000;
+	z-index: 1000; /* 置于最上层 */
+	opacity: 0.9;
+	background-color: #00000000; /* 背景透明 */
 	display: flex;
-	justify-content: left;
+	justify-content: left; /* 左对齐 */
 	height: 50px;
+	margin: 0;
 	font-family: sans-serif;
 }
 .dibu {
