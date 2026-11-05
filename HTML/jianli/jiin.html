@@ -2,71 +2,156 @@
 <html lang="zh-CN">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>简历</title>
-    <link rel="stylesheet" href="jiin.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="胡杰敏的个人简历：个人信息、教育背景、专业技能、项目经历与联系方式。">
+  <title>胡杰敏 · 个人简历</title>
+  <link rel="icon" href="../icon.ico">
+  <link rel="stylesheet" href="jiin.css">
 </head>
 
 <body>
-    <header class="dinbu">
-        <ul>
-            <li><a href="../index.html">返回首页</a></li>
+  <div class="toolbar">
+    <a class="btn-back" href="../index.html">← 返回首页</a>
+    <button class="btn-print" type="button" id="print-btn">打印 / 保存为 PDF</button>
+  </div>
 
-        </ul>
+  <main class="resume">
+    <header class="resume-header">
+      <p class="eyebrow">RESUME / 个人简历</p>
+      <h1>胡杰敏 <span>HJM</span></h1>
+      <p class="tagline">前端开发 · 交互设计 · 智能控制与自动化（本科）</p>
+      <ul class="contact-bar">
+        <li><span>电话</span><a href="tel:15527917832">15527917832</a></li>
+        <li><span>邮箱</span><a href="mailto:3297997642@qq.com">3297997642@qq.com</a></li>
+        <li><span>GitHub</span><a href="https://github.com/HHZZMD" target="_blank" rel="noopener noreferrer">github.com/HHZZMD</a></li>
+      </ul>
     </header>
-    <div class="in">
-         <form action="">
-        <label for="name">姓名：</label><!--输入文本框-->
-        <input type="text" name="name" id="name" placeholder="请输入姓名"><br>
-        <label for="birthday">生日：</label>
-        <input type="text" name="birthday" id="birthday" placeholder="请输入生日"><br>
-        <label>性别：</label><!--单选框-->
-        <input type="radio" name="gender">男
-        <input type="radio" name="gender">女
-        <input type="radio" name="gender">其他<br>
-        <label>爱好：</label><!--复选框-->
-        <input type="checkbox" name="hobby">唱歌
-        <input type="checkbox" name="hobby">跳舞    
-        <input type="checkbox" name="hobby">跳舞    
-        <input type="checkbox" name="hobby">跳舞  <br>  
 
-        <label for="school">学校：</label>
-        <input type="text" name="school" id="school" placeholder="请输入学校"><br>
-        <input type="submit" >
-    </form>                             
-    </div>
-    <div class="haibao">
-        <div class="wenzi">
-            <div style="width: 1 ;"></div>
-            <div style="width: 1 ;"></div>
+    <section class="section">
+      <h2><span class="num">01</span>个人信息</h2>
+      <dl class="info-grid">
+        <div><dt>姓名</dt><dd>胡杰敏</dd></div>
+        <div><dt>性别</dt><dd>男</dd></div>
+        <div><dt>年龄</dt><dd>22 岁</dd></div>
+        <div><dt>学历</dt><dd>本科</dd></div>
+        <div><dt>专业</dt><dd>智能控制与自动化</dd></div>
+        <div><dt>方向</dt><dd>Web 前端 / 交互设计</dd></div>
+      </dl>
+    </section>
+
+    <section class="section">
+      <h2><span class="num">02</span>教育背景</h2>
+      <article class="item">
+        <div class="item-head">
+          <h3>武汉工程大学</h3>
+          <span class="item-meta">本科</span>
         </div>
-        
+        <p class="item-sub">智能控制与自动化</p>
+        <p>专业学习之外持续自学 Web 前端与交互设计，并通过个人网站与页面实例练习布局、响应式与视觉实现。</p>
+      </article>
+    </section>
 
-    </div>
-   
-    <!-- <section class="as">
-        <div class="header lt">
-            <h1>简历</h1>
-            <p class="lt">个人信息</p>
+    <section class="section">
+      <h2><span class="num">03</span>专业技能</h2>
+      <div class="skill-groups">
+        <div class="skill-group">
+          <h3>前端开发</h3>
+          <p>熟悉 HTML、CSS、JavaScript，能够独立完成网页设计与开发，了解响应式布局与常见视觉效果的落地。</p>
+          <ul class="tags">
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>响应式布局</li>
+          </ul>
         </div>
-        <div class="lt">
-            <p>姓名：胡杰敏</p>
-            <p>性别：男</p>
-            <p>年龄：22</p>
-            <p>学历：本科</p>
-            <p>学校：武汉工程大学</p>
-            <p>专业：智能控制与自动化</p>
-            <p>电话：15527917832</p>
-            <p>邮箱：3297997642@qq.com</p>
-
+        <div class="skill-group">
+          <h3>后端基础</h3>
+          <p>了解 Python 与 C#，能够进行简单的后端开发与维护。</p>
+          <ul class="tags">
+            <li>Python</li>
+            <li>C#</li>
+          </ul>
         </div>
+      </div>
+    </section>
 
+    <section class="section">
+      <h2><span class="num">04</span>项目经历</h2>
+      <div class="projects">
+        <article class="item">
+          <div class="item-head">
+            <h3>Lumen Studio · 可视化 Web IDE</h3>
+            <span class="item-meta">Web 应用</span>
+          </div>
+          <p>浏览器内的可视化拖拽 Web 编辑器，包含实时预览与文件管理，可直接打开体验。</p>
+          <ul class="tags">
+            <li>前端工程</li>
+            <li>交互设计</li>
+          </ul>
+          <a class="item-link" href="../studio/index.html">打开项目：HTML/studio/index.html ↗</a>
+        </article>
 
+        <article class="item">
+          <div class="item-head">
+            <h3>战术 HUD 实验室</h3>
+            <span class="item-meta">界面实验</span>
+          </div>
+          <p>单文件实现的战术指挥界面实例，包含多套主题切换、网格纹理与动效拆解。</p>
+          <ul class="tags">
+            <li>CSS</li>
+            <li>主题设计</li>
+            <li>动效</li>
+          </ul>
+          <a class="item-link" href="../../10_实例_战术HUD实验室.html">打开项目：10_实例_战术HUD实验室.html ↗</a>
+        </article>
 
+        <article class="item">
+          <div class="item-head">
+            <h3>个人网站 · 作品集首页</h3>
+            <span class="item-meta">个人项目</span>
+          </div>
+          <p>从首屏、导航到作品与页脚的整站改版：渐变视觉、响应式布局、锚点导航与联系入口。</p>
+          <ul class="tags">
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>响应式</li>
+          </ul>
+          <a class="item-link" href="../index.html">打开项目：HTML/index.html ↗</a>
+        </article>
 
-    </section> -->
+        <article class="item">
+          <div class="item-head">
+            <h3>交互卡片练习</h3>
+            <span class="item-meta">练习</span>
+          </div>
+          <p>用原生 HTML / CSS 制作的卡片小样，练习圆角列表、表单与 details 展开等基础交互。</p>
+          <ul class="tags">
+            <li>HTML</li>
+            <li>CSS</li>
+          </ul>
+          <a class="item-link" href="../kad.html">打开项目：HTML/kad.html ↗</a>
+        </article>
+      </div>
+    </section>
 
+    <section class="section">
+      <h2><span class="num">05</span>联系方式</h2>
+      <dl class="contact-list">
+        <div><dt>电话</dt><dd><a href="tel:15527917832">15527917832</a></dd></div>
+        <div><dt>邮箱</dt><dd><a href="mailto:3297997642@qq.com">3297997642@qq.com</a></dd></div>
+        <div><dt>GitHub</dt><dd><a href="https://github.com/HHZZMD" target="_blank" rel="noopener noreferrer">https://github.com/HHZZMD</a></dd></div>
+        <div><dt>BILIBILI</dt><dd><a href="https://space.bilibili.com/498112090?spm_id_from=333.337.0.0" target="_blank" rel="noopener noreferrer">space.bilibili.com/498112090</a></dd></div>
+        <div><dt>个人网站</dt><dd><a href="../index.html">HTML/index.html（首页）</a></dd></div>
+      </dl>
+    </section>
+
+    <p class="resume-foot">胡杰敏 · 个人简历 · 2026 年 11 月</p>
+  </main>
+
+  <script>
+    document.getElementById('print-btn').addEventListener('click', () => window.print());
+  </script>
 </body>
 
 </html>

@@ -4,73 +4,177 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>小胡的个人网站</title>
+  <meta name="description" content="HJM 的个人网站：前端开发、交互设计与作品集。" />
+  <title>小胡的个人网站 · HJM</title>
+  <link rel="icon" href="icon.ico" />
   <link rel="stylesheet" href="index.css" />
 </head>
 
 <body>
-  <header class="dinbu"><!--置顶导航栏 -->
+  <a class="skip-link" href="#main">跳到主要内容</a>
 
-    <nav class="navbar"><!--导航栏 -->
-      <img src="作品集.png" height="30" />
-      <ul>
+  <header class="dinbu"><!-- 置顶导航栏 -->
+    <nav class="navbar" aria-label="主导航">
+      <a class="brand" href="#souye">
+        <img src="作品集.png" alt="" height="28" />
+        <span>HJM</span>
+      </a>
+      <ul class="nav-links">
         <li><a href="#souye">首页</a></li>
         <li><a href="#guanyu">关于我</a></li>
+        <li><a href="#zuopin">作品</a></li>
         <li><a href="#skills">技能</a></li>
         <li><a href="#dibulan">联系我</a></li>
       </ul>
     </nav>
-
   </header>
-  <main><!--主体内容 -->
 
-    <section id="souye" class="hero glow">
-      <div style="float: left; width: 100%;">
-        <h1>HELLO</h1>
-        <p>IM <em>HJM</em></p>
+  <main id="main"><!-- 主体内容 -->
+
+    <section id="souye" class="hero glow" aria-labelledby="hero-title"><!-- 首屏 -->
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="dot" aria-hidden="true"></span>PORTFOLIO / 2026</p>
+          <h1 id="hero-title">你好，我是<br /><span class="hero-name">HJM</span><span class="hero-period">.</span></h1>
+          <p class="hero-subtitle">前端开发 · 交互设计</p>
+          <p class="hero-desc">热爱编程与设计的学生，喜欢探索新技术和创意，用作品把想法变成能打开就能用的页面。</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#zuopin">查看作品 <span aria-hidden="true">↗</span></a>
+            <a class="btn btn-ghost" href="#dibulan">联系我 <span aria-hidden="true">→</span></a>
+          </div>
+          <ul class="hero-tags" aria-label="常用技术">
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>Python</li>
+            <li>C#</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="orbit orbit-1"></div>
+          <div class="orbit orbit-2"></div>
+          <div class="visual-card">
+            <span class="visual-label">// HELLO WORLD</span>
+            <strong>HJM</strong>
+            <span class="visual-caption">DESIGN × CODE</span>
+          </div>
+          <span class="float-chip chip-a">&lt;/&gt;</span>
+          <span class="float-chip chip-b">✦</span>
+        </div>
       </div>
-
-
-
+      <a class="scroll-cue" href="#guanyu">向下探索 <span aria-hidden="true">↓</span></a>
     </section>
 
-    <section id="guanyu" class="hero ">
-
-      <div class="glass">
-        <h2>关于我</h2>
-        <p><a href="jianli/jiin.html"> 这是一个简单的介绍页面。</a></p>
+    <section id="guanyu" class="section about">
+      <div class="container">
+        <p class="section-kicker">01 / ABOUT</p>
+        <h2 class="section-title">关于我</h2>
+        <div class="about-grid">
+          <div class="glass">
+            <h3>一点介绍</h3>
+            <p>我是一名热爱编程和设计的学生，喜欢探索新技术和创意。我希望通过我的作品和项目，展示我的能力和兴趣。</p>
+          </div>
+          <div class="glass">
+            <h3>正在做的事</h3>
+            <p>把学到的前端和后端技术做成小项目，一边练习一边记录。<a href="jianli/jiin.html">看看我的介绍页面 →</a></p>
+          </div>
+        </div>
       </div>
-      <div class="glass">
-
-        <p>我是一名热爱编程和设计的学生，喜欢探索新技术和创意。我希望通过我的作品和项目，展示我的能力和兴趣。</p>
-      </div>
-
     </section>
 
-    <section id="skills" class="hero jies">
-      <div>
-        <h2>技能:skills</h2>
-        <p>1、我熟悉<em>HTML</em>、<em>CSS</em>、<em>JavaScript</em>等前端技术，能够独立完成网页设计和开发工作。</p>
-        <p>2、我了解<em>Python</em>和<em>C#</em>等后端技术，能够进行简单的后端开发和维护。</p>
+    <section id="zuopin" class="section works"><!-- 作品 -->
+      <div class="container">
+        <p class="section-kicker">02 / SELECTED WORK</p>
+        <h2 class="section-title">作品</h2>
+        <p class="section-lead">从可视化工具到界面实验，都是边学边做的小项目，点开就能看。</p>
+        <div class="work-grid">
+          <a class="work-card" href="studio/index.html">
+            <span class="work-index">01</span>
+            <h3>Lumen Studio · 可视化 Web IDE</h3>
+            <p>浏览器里的拖拽式 Web 编辑器，带实时预览与文件管理。</p>
+            <ul class="work-tags">
+              <li>Web 应用</li>
+              <li>交互设计</li>
+            </ul>
+            <span class="work-link">打开项目 <span aria-hidden="true">↗</span></span>
+          </a>
+          <a class="work-card" href="../10_实例_战术HUD实验室.html">
+            <span class="work-index">02</span>
+            <h3>战术 HUD 实验室</h3>
+            <p>单文件实现的战术指挥界面实例，包含主题切换与动效拆解。</p>
+            <ul class="work-tags">
+              <li>CSS</li>
+              <li>视觉实验</li>
+            </ul>
+            <span class="work-link">打开项目 <span aria-hidden="true">↗</span></span>
+          </a>
+          <a class="work-card" href="kad.html">
+            <span class="work-index">03</span>
+            <h3>交互卡片练习</h3>
+            <p>用原生 HTML / CSS 做的一张小卡片，练习布局与细节样式。</p>
+            <ul class="work-tags">
+              <li>HTML</li>
+              <li>CSS</li>
+            </ul>
+            <span class="work-link">打开项目 <span aria-hidden="true">↗</span></span>
+          </a>
+        </div>
       </div>
-
     </section>
 
-    <section class="hero">
-      <div>
+    <section id="skills" class="section skills">
+      <div class="container">
+        <p class="section-kicker">03 / SKILLS</p>
+        <h2 class="section-title">技能</h2>
+        <div class="skill-grid">
+          <div class="skill-card">
+            <h3>前端</h3>
+            <p>熟悉 <em>HTML</em>、<em>CSS</em>、<em>JavaScript</em> 等前端技术，能够独立完成网页设计和开发工作。</p>
+          </div>
+          <div class="skill-card">
+            <h3>后端</h3>
+            <p>了解 <em>Python</em> 和 <em>C#</em> 等后端技术，能够进行简单的后端开发和维护。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section closing">
+      <div class="container">
         <h2>感谢您的访问！</h2>
         <p>希望您在这里度过愉快的时光，期待与您交流和合作！</p>
       </div>
     </section>
-    <ul id="dibulan">
-      <li><a href="https://github.com/HHZZMD">github</a></li>
-      <li> <a href="https://space.bilibili.com/498112090?spm_id_from=333.337.0.0">BILIBILI</a></li>
-      <li><a href="studio/index.html">WEB工具</a></li>
-      <li></li>
-      <li></li>
-    </ul>
 
   </main>
+
+  <footer id="dibulan" class="site-footer"><!-- 页脚 -->
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <p class="footer-kicker">LET'S TALK</p>
+        <h2>有个想法？聊聊看。</h2>
+        <p>邮件、简历或下面任意一个平台，都可以找到我。</p>
+      </div>
+      <div class="footer-col">
+        <h3>联系</h3>
+        <a class="footer-email" href="mailto:3297997642@qq.com">3297997642@qq.com</a>
+        <a class="footer-resume" href="jianli/jiin.html">查看简历 <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="footer-col">
+        <h3>链接</h3>
+        <ul class="footer-links">
+          <li><a href="https://github.com/HHZZMD" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
+          <li><a href="https://space.bilibili.com/498112090?spm_id_from=333.337.0.0" target="_blank" rel="noopener noreferrer">BILIBILI ↗</a></li>
+          <li><a href="studio/index.html">WEB 工具 ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© 2026 HJM</span>
+      <a href="#souye">回到顶部 ↑</a>
+    </div>
+  </footer>
 
 </body>
 
